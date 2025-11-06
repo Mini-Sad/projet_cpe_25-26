@@ -1,11 +1,18 @@
-import React, { useState, useEffect } from 'react'; // Import corrigé
-import { Camera, Users, Briefcase, MessageSquare, User, Search, Filter, MapPin, Clock, Star, ArrowRight, Check, TrendingUp, Target, Heart, Send, Menu, X, ChevronRight, Building2, GraduationCap, Sparkles, Sliders } from 'lucide-react';
-// 'react-responsive' a été supprimé car il n'est pas disponible dans cet environnement.
+import React, { useState, useEffect } from 'react';
+// Imports Lucide (toutes les icônes pour les deux démos)
+import { 
+    Camera, Users, Briefcase, MessageSquare, User, Search, Filter, MapPin, Clock, Star, ArrowRight, 
+    Check, TrendingUp, Target, Heart, Send, Menu, X, ChevronRight, Building2, GraduationCap, 
+    Sparkles, Sliders, Server, PieChart, BarChart, CheckCircle
+} from 'lucide-react';
+
+// === IMPORTATION DU FICHIER SÉPARÉ ===
+// Ceci fonctionnera si SchoolDashboard.jsx est dans le même dossier
+import SchoolDashboard from './SchoolDashboard.jsx';
 
 // ==================== HOOKS (Corrigé) ====================
 /**
  * Hook personnalisé pour détecter si la vue est mobile en fonction de la largeur de la fenêtre.
- * Remplace le paquet 'react-responsive' qui n'est pas disponible.
  */
 const useIsMobile = (maxWidth = 768) => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= maxWidth);
@@ -37,7 +44,7 @@ const STUDENT_PROFILE = {
     ambiance: "Équipe agile, Flexibilité",
     hobbies: ["Escalade", "Voyage", "Jeux vidéo"],
     
-    // CORRECTION: Le champ 'goals' manquait, ce qui causait l'erreur sur la page Profil.
+    // CORRECTION: Le champ 'goals' manquait
     goals: ["Devenir PM dans une entreprise tech", "Lancer ma propre startup"],
     
     values: ["Innovation", "Équilibre vie pro/perso", "Apprentissage continu", "Impact"],
@@ -69,9 +76,8 @@ const MENTORS = [
         location: "Paris",
         school: "IMT-BS '15",
         expertise: ["Product Management", "B2B SaaS", "Data Analytics", "Leadership"],
-        bio: "J'ai passé 7 ans à construire des produits qui évoluent chez Datadog. Je suis passionnée par l'accompagnement des jeunes talents vers des carrières en product management.",
+        bio: "J'ai passé 7 ans à construire des produits qui évoluent chez Datadog...",
         availability: "1h/mois",
-        // Nouveaux champs pour le mentor
         culture: "Forte autonomie, Méritocratie",
         hobbies: ["Course à pied", "Cuisine", "Lecture"],
         matchScore: { overall: 87, personality: 92, goals: 85, culture: 90, hobbies: 75, background: 84, expertise: 88 },
@@ -87,7 +93,7 @@ const MENTORS = [
         location: "Paris",
         school: "Télécom Paris '13",
         expertise: ["Engineering", "Team Management", "Architecture", "Startup Growth"],
-        bio: "Ancien développeur devenu manager, je guide les ingénieurs juniors dans leur transition vers le leadership technique.",
+        bio: "Ancien développeur devenu manager, je guide les ingénieurs...",
         availability: "1h/mois",
         culture: "Collaboratif, Travail à distance",
         hobbies: ["Football en équipe", "Musique", "Voyage"],
@@ -104,7 +110,7 @@ const MENTORS = [
         location: "Paris",
         school: "HEC '16",
         expertise: ["Stratégie", "Conseil", "Transformation Digitale", "Leadership"],
-        bio: "Spécialisée en transformation digitale, j'aide les étudiants à comprendre le monde du conseil et à préparer leurs entretiens.",
+        bio: "Spécialisée en transformation digitale, j'aide les étudiants...",
         availability: "2h/mois",
         culture: "Exigence, Rythme soutenu",
         hobbies: ["Yoga", "Lecture", "Voyage"],
@@ -121,7 +127,7 @@ const MENTORS = [
         location: "Paris",
         school: "ENSIIE '17",
         expertise: ["Data Science", "Machine Learning", "Python", "IA"],
-        bio: "Passionné par l'IA appliquée à la santé, je partage mon expérience en data science et aide à naviguer ce domaine en pleine expansion.",
+        bio: "Passionné par l'IA appliquée à la santé, je partage mon expérience...",
         availability: "1h/mois",
         culture: "Transparence, Bien-être au travail",
         hobbies: ["Jeu de société", "Randonnée", "Cuisine"],
@@ -129,77 +135,8 @@ const MENTORS = [
         industry: "Tech",
         menteeCount: 6
     },
-    {
-        id: 5,
-        name: "Julie Moreau",
-        title: "UX Designer Lead",
-        company: "Doctolib",
-        photo: "https://i.pravatar.cc/400?img=9",
-        location: "Paris",
-        school: "Gobelins '14",
-        expertise: ["UX Design", "Product Design", "User Research", "Design Systems"],
-        bio: "Je crée des expériences utilisateur centrées sur l'humain. Mon objectif : démystifier le design et aider les juniors à construire des portfolios impactants.",
-        availability: "1h/mois",
-        culture: "Mission forte, Agilité",
-        hobbies: ["Dessin", "Cinéma", "Voyage"],
-        matchScore: { overall: 76, personality: 79, goals: 75, culture: 76, hobbies: 70, background: 74, expertise: 76 },
-        industry: "Tech",
-        menteeCount: 10
-    },
-    {
-        id: 6,
-        name: "Alexandre Martin",
-        title: "Investment Associate",
-        company: "BNP Paribas",
-        photo: "https://i.pravatar.cc/400?img=15",
-        location: "Paris",
-        school: "ESSEC '15",
-        expertise: ["Finance", "M&A", "Private Equity", "Valorisation"],
-        bio: "Spécialiste en finance d'entreprise, je guide les étudiants intéressés par la banque d'investissement et le private equity.",
-        availability: "1h/mois",
-        culture: "Hiérarchie, Conformité",
-        hobbies: ["Golf", "Ski", "Lecture"],
-        matchScore: { overall: 71, personality: 73, goals: 70, culture: 65, hobbies: 68, background: 72, expertise: 68 },
-        industry: "Finance",
-        menteeCount: 9
-    },
-    {
-        id: 7,
-        name: "Camille Petit",
-        title: "Marketing Manager",
-        company: "L'Oréal",
-        photo: "https://i.pravatar.cc/400?img=10",
-        location: "Paris",
-        school: "ESCP '16",
-        expertise: ["Marketing Digital", "Brand Management", "Social Media", "Stratégie"],
-        bio: "Experte en marketing digital et gestion de marque dans le luxe. Je partage les secrets d'une carrière marketing réussie.",
-        availability: "1h/mois",
-        culture: "Image, Vitesse",
-        hobbies: ["Réseaux sociaux", "Cinéma", "Shopping"],
-        matchScore: { overall: 74, personality: 76, goals: 73, culture: 70, hobbies: 78, background: 75, expertise: 72 },
-        industry: "Luxe & Beauté",
-        menteeCount: 13
-    },
-    {
-        id: 8,
-        name: "Pierre Lefevre",
-        title: "Solutions Architect",
-        company: "Contentsquare",
-        photo: "https://i.pravatar.cc/400?img=18",
-        location: "Paris",
-        school: "CentraleSupélec '14",
-        expertise: ["Architecture Cloud", "DevOps", "AWS", "Scalabilité"],
-        bio: "J'aide les entreprises à construire des architectures scalables. Passionné par le mentorat technique et le partage de bonnes pratiques.",
-        availability: "1h/mois",
-        culture: "Technique, Innovation",
-        hobbies: ["Jeux vidéo", "Technologie", "Musique"],
-        matchScore: { overall: 83, personality: 86, goals: 81, culture: 84, hobbies: 80, background: 84, expertise: 80 },
-        industry: "Tech",
-        menteeCount: 7
-    }
 ];
 
-// Maintien des données JOBS, mais sans les scores de match directs
 const JOBS = [
     {
         id: 1,
@@ -215,7 +152,7 @@ const JOBS = [
             "La culture de l'entreprise (Transparence, Bien-être) correspond à vos valeurs.",
             "3 mentors Alan sont disponibles pour vous guider."
         ],
-        description: "Rejoins l'équipe produit d'Alan pour révolutionner l'assurance santé en France. Tu travailleras sur des fonctionnalités impactant 500K+ utilisateurs.",
+        description: "Rejoins l'équipe produit d'Alan pour révolutionner l'assurance santé...",
         requirements: ["Bac+4/5 en Business ou Ingénierie", "Intérêt pour la healthtech", "Esprit analytique"],
         salary: "1 400€/mois",
         industry: "Tech"
@@ -233,7 +170,7 @@ const JOBS = [
             "L'environnement scale-up correspond à vos ambitions.",
             "2 mentors BlaBlaCar sont disponibles."
         ],
-        description: "Développe des fonctionnalités pour 100M d'utilisateurs à travers le monde. Stack moderne : React, Node.js, AWS.",
+        description: "Développe des fonctionnalités pour 100M d'utilisateurs...",
         requirements: ["Diplôme d'ingénieur", "Expérience React/Node", "Anglais courant"],
         salary: "42-48K€",
         industry: "Tech"
@@ -251,7 +188,7 @@ const JOBS = [
             "Exposition à de multiples industries (grande opportunité d'apprentissage).",
             "1 mentor BCG est disponible."
         ],
-        description: "Résous des problèmes stratégiques complexes pour des clients du CAC40. Formation continue et évolution rapide.",
+        description: "Résous des problèmes stratégiques complexes pour des clients du CAC40...",
         requirements: ["Top école (HEC, X, Centrale...)", "Excellentes compétences analytiques", "Anglais bilingue"],
         salary: "50-55K€",
         industry: "Conseil"
@@ -290,6 +227,7 @@ const MESSAGES = [
         status: "active"
     }
 ];
+
 
 // ==================== COMPOSANTS UI ====================
 
@@ -397,9 +335,6 @@ const MentorCard = ({ mentor, onClick }) => {
 };
 
 const JobCard = ({ job, onClick }) => {
-    // SUPPRESSION du score de match direct avec l'offre.
-    // const fitScore = job.company === 'Alan' ? 92 : job.company === 'BlaBlaCar' ? 88 : 75;
-
     return (
         <div 
             onClick={onClick}
@@ -415,7 +350,6 @@ const JobCard = ({ job, onClick }) => {
                         <Badge color="gray" size="small">{job.remote}</Badge>
                     </div>
                 </div>
-                {/* Le score de "Fit estimé" est supprimé pour clarifier le système de match unique (via mentor) */}
             </div>
             
             <p className="text-sm text-gray-600 mb-3 line-clamp-2">{job.description}</p>
@@ -430,6 +364,8 @@ const JobCard = ({ job, onClick }) => {
 
 const Navbar = ({ view, setView, isMobile }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    
+    // === MODIFICATION : "Vue École" n'est PAS dans la navbar de l'étudiant ===
     const navItems = [
         { label: "Dashboard", view: "dashboard", icon: Sliders },
         { label: "Mon Profil", view: "profile", icon: User },
@@ -460,7 +396,6 @@ const Navbar = ({ view, setView, isMobile }) => {
         <header className="bg-white shadow-md sticky top-0 z-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
                 <div className="flex items-center gap-4">
-                    {/* MODIFICATION: Cliquer sur le logo ramène au Dashboard */}
                     <button onClick={() => setView('dashboard')} className="cursor-pointer">
                         <h1 className="text-xl font-bold text-indigo-600 font-poppins">Fit-In.</h1>
                     </button>
@@ -471,7 +406,6 @@ const Navbar = ({ view, setView, isMobile }) => {
                     <div className="text-sm text-gray-600 hidden sm:block">
                         Connexions: <Badge color="warning">{STUDENT_PROFILE.mentorConnections.active}/{STUDENT_PROFILE.mentorConnections.limit}</Badge>
                     </div>
-                    {/* MODIFICATION: Cliquer sur la photo ramène au Profil */}
                     <button onClick={() => setView('profile')} className="cursor-pointer">
                         <img src={STUDENT_PROFILE.photo} alt={STUDENT_PROFILE.name} className="w-8 h-8 rounded-full object-cover border-2 border-indigo-500" />
                     </button>
@@ -494,7 +428,7 @@ const Navbar = ({ view, setView, isMobile }) => {
 
 // ==================== PAGES ====================
 
-const Landing = ({ onStart }) => {
+const Landing = ({ onStart }) => { // onStart est maintenant utilisé pour naviguer
     return (
         <div className="min-h-screen">
             <div className="bg-gradient-to-br from-indigo-700 via-indigo-600 to-pink-500 text-white py-20 px-4">
@@ -509,9 +443,13 @@ const Landing = ({ onStart }) => {
                     <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
                         Nous connectons étudiants, mentors et opportunités non pas par CV, mais par **personnalité, valeurs et culture d'entreprise**.
                     </p>
+                    {/* === MODIFICATION: PORTAIL DE CHOIX === */}
                     <div className="flex gap-4 justify-center flex-wrap">
-                        <Button onClick={onStart} size="large" variant="secondary" icon={ArrowRight}>
-                            Accéder à la démo (Étudiant)
+                        <Button onClick={() => onStart('dashboard')} size="large" variant="secondary" icon={GraduationCap}>
+                            Démo Étudiant
+                        </Button>
+                        <Button onClick={() => onStart('school')} size="large" variant="outline" className="bg-white/10 border-white text-white hover:bg-white/20" icon={Server}>
+                            Démo École (Admin)
                         </Button>
                     </div>
                 </div>
@@ -570,8 +508,6 @@ const Landing = ({ onStart }) => {
 };
 
 const Dashboard = ({ onNavigate }) => {
-    // Suppression de la boîte "Match Moyen"
-    
     return (
         <div className="p-6 max-w-7xl mx-auto">
             <div className="mb-8">
@@ -580,7 +516,6 @@ const Dashboard = ({ onNavigate }) => {
             </div>
             
             <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-                {/* Garde ces cartes d'info sans le Match Moyen */}
                 <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-gray-600 text-sm">Mentors Actifs</span>
@@ -653,7 +588,7 @@ const MentorsPage = ({ onNavigate }) => {
     
     const filteredMentors = MENTORS.filter(mentor => {
         const matchesSearch = mentor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            mentor.company.toLowerCase().includes(searchTerm.toLowerCase());
+                                mentor.company.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesIndustry = selectedIndustry === 'all' || mentor.industry === selectedIndustry;
         return matchesSearch && matchesIndustry;
     });
@@ -903,7 +838,7 @@ const OpportunitiesPage = ({ onNavigate }) => {
     
     const filteredJobs = JOBS.filter(job => {
         const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            job.company.toLowerCase().includes(searchTerm.toLowerCase());
+                                job.company.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesType = selectedType === 'all' || job.type === selectedType;
         return matchesSearch && matchesType;
     });
@@ -1063,7 +998,7 @@ const JobDetail = ({ jobId, onNavigate }) => {
                 </div>
             </div>
             
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div>
                     <h3 className="font-semibold mb-1">Prêt à postuler ?</h3>
                     <p className="text-sm text-gray-600">Nous recommandons de valider ton Fit Culturel via un mentor avant de candidater.</p>
@@ -1216,7 +1151,7 @@ const QuizPage = ({ onNavigate }) => {
             id: 2,
             question: "Quelle ambiance de travail vous motive le plus ?",
             answers: [
-                { text: "A. Un environnement très structuré avec des objectifs clairs.", traits: "Sécurité, Organisation" },
+                { text: "A. Un environnement très structuré avec des objectives clairs.", traits: "Sécurité, Organisation" },
                 { text: "B. Une ambiance décontractée où l'autonomie est la règle d'or.", traits: "Flexibilité, Autonomie" },
                 { text: "C. Un rythme soutenu où la compétition encourage l'excellence.", traits: "Exigence, Compétitif" },
             ]
@@ -1402,14 +1337,15 @@ const ProfilePage = ({ onNavigate }) => {
 // ==================== APP PRINCIPALE ====================
 
 const App = () => {
+    // view state: 'landing', 'dashboard', 'mentors', 'mentor', 'opportunities', 'job', 'messages', 'profile'
     const [view, setView] = useState('landing');
-    const [dataId, setDataId] = useState(null);
-    const isMobile = useIsMobile(768); // Utilisation du hook local corrigé
+    const [dataId, setDataId] = useState(null); // For mentorId or jobId
+    const isMobile = useIsMobile();
     
     // Fonction de navigation gérant les IDs
     const handleNavigate = (newView, id = null) => {
-        setDataId(id);
         setView(newView);
+        setDataId(id);
         window.scrollTo(0, 0); // Scroll to top on navigation
     };
 
@@ -1417,7 +1353,8 @@ const App = () => {
     const renderView = () => {
         switch (view) {
             case 'landing':
-                return <Landing onStart={() => handleNavigate('dashboard')} />;
+                // Modifié pour passer la fonction de navigation
+                return <Landing onStart={handleNavigate} />;
             case 'dashboard':
                 return <Dashboard onNavigate={handleNavigate} />;
             case 'profile':
@@ -1434,20 +1371,33 @@ const App = () => {
                 return <MessagesPage />;
             case 'quiz':
                 return <QuizPage onNavigate={handleNavigate} />;
+            
+            // === AJOUT DU ROUTAGE VERS LE DASHBOARD ÉCOLE ===
+            case 'school':
+                // SchoolDashboard est maintenant importé en haut du fichier
+                return <SchoolDashboard onNavigate={handleNavigate} />;
+
             default:
                 return <Dashboard onNavigate={handleNavigate} />;
         }
     };
 
-    const shouldShowNavbar = view !== 'landing';
+    // === MODIFICATION ===
+    // La barre de navigation est maintenant conditionnelle, 
+    // elle ne s'affiche PAS pour la 'landing' page NI pour la 'school' page.
+    const shouldShowNavbar = view !== 'landing' && view !== 'school';
+    
+    // La vue 'school' a un fond différent (géré dans son propre composant)
+    const appBg = view === 'school' ? 'bg-gray-50' : 'bg-gray-50';
 
     return (
-        <>
+        <div className={`min-h-screen ${appBg} font-inter`}>
             {shouldShowNavbar && <Navbar view={view} setView={handleNavigate} isMobile={isMobile} />}
-            <main className={shouldShowNavbar ? 'pt-0' : ''}>
+            
+            <main>
                 {renderView()}
             </main>
-        </>
+        </div>
     );
 };
 
