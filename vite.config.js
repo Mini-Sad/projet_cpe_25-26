@@ -6,3 +6,8 @@ export default defineConfig({
   base: "",
   plugins: [react()],
 })
+
+export default {
+  base: '/projet_cpe_25-26/', // 👈 required for correct asset paths
+}
+
