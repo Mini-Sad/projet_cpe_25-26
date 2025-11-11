@@ -1315,7 +1315,9 @@ const CompanyProfilePage = () => {
 
 // ### COMPOSANT MIS À JOUR ###
 const App = () => {
-    const [view, setView] = useState('landing');
+    // ### MODIFIÉ ICI ###
+    // 'landing' est devenu 'dashboard' pour sauter la page d'accueil entreprise
+    const [view, setView] = useState('dashboard'); 
     const [dataId, setDataId] = useState(null); // ID pour 'job', 'event', 'mentor', 'candidate'
     
     // Nouvel état pour suivre le mentor sélectionné dans la page Candidats
@@ -1329,7 +1331,7 @@ const App = () => {
 
     const renderView = () => {
         switch (view) {
-            case 'landing':
+            case 'landing': // Gardé au cas où un autre bouton y mènerait
                 return <Landing onStart={() => handleNavigate('dashboard')} />;
             case 'dashboard':
                 return <Dashboard onNavigate={handleNavigate} />;
@@ -1369,10 +1371,9 @@ const App = () => {
     };
     // ##########################
 
-    if (view === 'landing') {
-        return <Landing onStart={() => handleNavigate('dashboard')} />;
-    }
-
+    // ### BLOC 'if (view === 'landing')' SUPPRIMÉ ###
+    // Cela force l'application à toujours rendre la Navbar et le <main>
+    
     return (
         <div className="min-h-screen bg-gray-50 font-inter">
             <Navbar onNavigate={handleNavigate} currentView={view} />
@@ -1384,4 +1385,3 @@ const App = () => {
 };
 
 export default App;
-

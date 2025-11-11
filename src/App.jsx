@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { 
     Camera, Users, Briefcase, MessageSquare, User, Search, Filter, MapPin, Clock, Star, ArrowRight, 
     Check, TrendingUp, Target, Heart, Send, Menu, X, ChevronRight, Building2, GraduationCap, 
-    Sparkles, Sliders, Server, PieChart, BarChart, CheckCircle, AlertTriangle, BarChart3, Plus, Edit2, Archive 
+    Sparkles, Sliders, Server, PieChart, BarChart, CheckCircle, AlertTriangle, BarChart3, Plus, Edit2, Archive,
+    Linkedin, Twitter, Instagram // Ajout des icônes de réseaux
 } from 'lucide-react';
 
 // === IMPORTATION DES FICHIERS SÉPARÉS ===
@@ -263,9 +264,12 @@ const Navbar = ({ view, setView, isMobile }) => {
     );
 };
 
+// ### COMPOSANT LANDING MIS À JOUR ###
 const Landing = ({ onStart }) => (
-    <div className="min-h-screen">
-        <div className="bg-gradient-to-br from-indigo-700 via-indigo-600 to-pink-500 text-white py-20 px-4">
+    <div className="min-h-screen flex flex-col"> {/* Changé en flex-col */}
+        
+        {/* Section principale */}
+        <div className="bg-gradient-to-br from-indigo-700 via-indigo-600 to-pink-500 text-white py-20 px-4 flex-grow">
             <div className="max-w-6xl mx-auto text-center">
                 <div className="inline-flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full mb-6">
                     <Sparkles size={16} />
@@ -282,19 +286,61 @@ const Landing = ({ onStart }) => (
                     <Button onClick={() => onStart('dashboard')} size="large" variant="secondary" icon={GraduationCap}>
                         Démo Étudiant
                     </Button>
-                    <Button onClick={() => onStart('school')} size="large" variant="outline" className="bg-white/10 border-white text-white hover:bg-white/20" icon={Server}>
+                    <Button onClick={() => onStart('school')} size="large" variant="secondary" icon={Server}>
                         Démo École (Admin)
                     </Button>
-                    {/* === NOUVEAU BOUTON === */}
-                    <Button onClick={() => onStart('enterprise')} size="large" variant="outline" className="bg-white/10 border-white text-white hover:bg-white/20" icon={Building2}>
+                    <Button onClick={() => onStart('enterprise')} size="large" variant="secondary" icon={Building2}>
                         Démo Entreprise
+                    </Button>
+                    <Button onClick={() => { window.location.search = '?app=employe' }} size="large" variant="secondary" icon={Users}>
+                        Démo Employé
                     </Button>
                 </div>
             </div>
         </div>
-        {/* ... Reste de la Landing Page ... */}
+        
+        {/* === NOUVELLE SECTION PIED DE PAGE (MIS À JOUR) === */}
+        <footer className="bg-indigo-700 text-gray-300 py-12 px-6"> {/* Fond violet et texte clair */}
+            <div className="max-w-7xl mx-auto">
+                {/* Slogan */}
+                <div className="text-center mb-8">
+                    <h3 className="text-4xl font-bold text-white font-poppins italic">
+                        "Match, Mentor, Grow"
+                    </h3>
+                </div>
+                
+                {/* Séparateur */}
+                <div className="border-t border-indigo-500 opacity-50 mb-8"></div> 
+
+                {/* Contenu du pied de page */}
+                <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+                    {/* Left: Contact */}
+                    <div className="text-center md:text-left">
+                        <h4 className="font-semibold text-white">Contact</h4>
+                        <a href="mailto:contact@fit-in.com" className="text-sm hover:text-white">
+                            contact@fit-in.com
+                        </a>
+                    </div>
+                    
+                    {/* Right: Socials */}
+                    <div className="flex gap-6">
+                        <a href="#" className="text-gray-300 hover:text-white" aria-label="LinkedIn">
+                            <Linkedin size={24} />
+                        </a>
+                        <a href="#" className="text-gray-300 hover:text-white" aria-label="Twitter">
+                            <Twitter size={24} />
+                        </a>
+                        <a href="#" className="text-gray-300 hover:text-white" aria-label="Instagram">
+                            <Instagram size={24} />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        {/* ==================================== */}
     </div>
 );
+// #############################################
 
 const Dashboard = ({ onNavigate }) => (
     <div className="p-6 max-w-7xl mx-auto">
@@ -553,7 +599,7 @@ const OpportunitiesPage = ({ onNavigate }) => {
                                 <option value="Alternance">Alternance</option>
                             </select>
                         </div>
-                        {(searchTerm || selectedType !== 'all') && <Button variant="ghost" size="small" onClick={() => { setSearchTerm(''); setSelectedType('all'); }} className="w-full">Effacer les filtres</Button>}
+                        {(searchTerm || selectedType !== 'all') && <Button variant="ghost" size="small" onClick={() => { setSearchTerm(''); setSelectedIndustry('all'); }} className="w-full">Effacer les filtres</Button>}
                     </div>
                 </div>
                 <div className="flex-1">
